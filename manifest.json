@@ -1,5 +1,5 @@
 {
-	"name": "PwVideoPlayer",
+	"name": "PwVideoController",
 	"version": "0.01",
 	"background": {
 		"service_worker": "background.js"
