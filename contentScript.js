@@ -33,7 +33,7 @@ if (typeof init === "undefined") {
 				var vidId = document.getElementsByTagName("video")[0],
 					audiJump = 0.1, //audeo range 0 to 1
 					vidSpeedJump = 0.1, //speed range 0 to 10
-					vidSeekJump = 5; //in second
+					vidSeekJump = 5; //in seconds
 
 				// this for the new speeded duration
 				function setupSpeedDuration() {
@@ -56,18 +56,6 @@ if (typeof init === "undefined") {
 					console.log("Duration fucntion started");
 				}
 
-				//volume change
-				function setvol(crVolume) {
-					vidId.volume = crVolume;
-					console.log("Volume = " + vidId.volume.toFixed(1));
-				}
-
-				//video speed change
-				function setVidSpeed(vidSpeed) {
-					vidId.playbackRate = vidSpeed;
-					console.log("Video Speed = " + vidId.playbackRate.toFixed(2));
-				}
-
 				// this for the volume control by up and down arrow
 				function keyboardEventListener() {
 					window.addEventListener("keydown", (event) => {
@@ -78,26 +66,25 @@ if (typeof init === "undefined") {
 								alert("Max Volume");
 							} else if (vidId.volume < 1) {
 								vidId.volume += audiJump;
-								// setvol(vidId.volume + audiJump);
-								// console.log("Volume Up");
+								console.log("Volume Up");
 							}
 						} else if (event.key === "ArrowDown") {
 							if (vidId.volume > 0 && vidId.volume < 0.1) {
 								console.log("Minnium Volume");
 								alert("Minnimum Volume");
 							} else if (vidId.volume > 0.1) {
-								setvol(vidId.volume - audiJump);
-								// console.log("Volume Down");
+								vidId.volume -= audiJump;
+								console.log("Volume Down");
 							}
 
 							//video speed control
 						} else if (event.key === "+") {
 							if (vidId.playbackRate < 15) {
-								setVidSpeed(vidId.playbackRate + vidSpeedJump);
+								vidId.playbackRate += vidSpeedJump;
 							}
 						} else if (event.key === "-") {
 							if (vidId.playbackRate - vidSpeedJump > 0.1) {
-								setVidSpeed(vidId.playbackRate - vidSpeedJump);
+								vidId.playbackRate -= vidSpeedJump;
 							}
 
 							//video play&pause
