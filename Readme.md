@@ -1,6 +1,6 @@
 # Physics Wallah Video Controller
 
-## To change the keys:
+## To change the default values and key set:
 
 Edit the contentScript.js file
 
