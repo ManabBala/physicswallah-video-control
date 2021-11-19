@@ -31,9 +31,18 @@ if (typeof init === "undefined") {
 
 				//assigning all variable(default values)
 				var vidId = document.getElementsByTagName("video")[0],
-					audiJump = 0.1, //audeo range 0 to 1
-					vidSpeedJump = 0.1, //speed range 0 to 10
-					vidSeekJump = 5; //in seconds
+					//default values
+					audiJump = 0.1, //volume range 0 to 1-(volume go up/down by 0.1)
+					vidSpeedJump = 0.1, //speed range 0 to 10-(vid speed go up/down by 0.1)
+					vidSeekJump = 5, //in seconds-(vid forward/backward by 5 sec)
+					//keyset for controller
+					audiUpKey = "ArrowUp", //up arrow key for volume up
+					audiDownKey = "ArrowDown", //down arrow key for volume down
+					forwardKey = "ArrowRight", //rigt arrow for video forwarding
+					backwardKey = "ArrowLeft", //left arrow for video backwarding
+					speedUpKey = "+", //NUMPAD '+' for speedup the video
+					speedDownKey = "-", //NUMPAD '-' for slowdown the video
+					playPauseKey = " "; //" " denotes the "blank space" for Space Bar to pay and pause the vid
 
 				// this for the new speeded duration
 				function setupSpeedDuration() {
@@ -60,7 +69,7 @@ if (typeof init === "undefined") {
 				function keyboardEventListener() {
 					window.addEventListener("keydown", (event) => {
 						//volume control
-						if (event.key === "ArrowUp") {
+						if (event.key === audiUpKey) {
 							if (vidId.volume === 1) {
 								console.log("Max Volume");
 								alert("Max Volume");
@@ -68,7 +77,7 @@ if (typeof init === "undefined") {
 								vidId.volume += audiJump;
 								console.log("Volume Up");
 							}
-						} else if (event.key === "ArrowDown") {
+						} else if (event.key === audiDownKey) {
 							if (vidId.volume > 0 && vidId.volume < 0.1) {
 								console.log("Minnium Volume");
 								alert("Minnimum Volume");
@@ -78,25 +87,25 @@ if (typeof init === "undefined") {
 							}
 
 							//video speed control
-						} else if (event.key === "+") {
+						} else if (event.key === speedUpKey) {
 							if (vidId.playbackRate < 15) {
 								vidId.playbackRate += vidSpeedJump;
 							}
-						} else if (event.key === "-") {
+						} else if (event.key === speedDownKey) {
 							if (vidId.playbackRate - vidSpeedJump > 0.1) {
 								vidId.playbackRate -= vidSpeedJump;
 							}
 
 							//video play&pause
-						} else if (event.key === " ") {
+						} else if (event.key === playPauseKey) {
 							if (vidId.paused) {
 								vidId.play();
 							} else vidId.pause();
 
 							//video seeking
-						} else if (event.key === "ArrowRight") {
+						} else if (event.key === forwardKey) {
 							vidId.currentTime += vidSeekJump;
-						} else if (event.key === "ArrowLeft") {
+						} else if (event.key === backwardKey) {
 							vidId.currentTime -= vidSeekJump;
 						} else false;
 					});
