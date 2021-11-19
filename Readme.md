@@ -1,4 +1,20 @@
-# Physics Wallah Video Controller
+# Physics Wallah Video Controller(Chrome Extension)
+
+## Features:
+
+| Feature          | Keyboard Key  |
+| ---------------- | ------------- |
+| Volume Up        | Up Arrow ↑    |
+| Volume Down      | Down Arrow ↓  |
+| Video Forward    | Right Arrow → |
+| Video Backward   | Left Arrow ←  |
+| Video Speedup    | NUMPAD +      |
+| Video Slowdown   | NUMPAD -      |
+| Video Play/Pause | Spacebar      |
+
+## Other features:
+
+- Video duration shown as "left duration"(This also update with video speed up/down)
 
 ## To change the default values and key set:
 
