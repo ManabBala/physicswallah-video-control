@@ -77,7 +77,8 @@ if (typeof init === "undefined") {
 								console.log("Max Volume");
 								alert("Max Volume");
 							} else if (vidId.volume < 1) {
-								setvol(vidId.volume + audiJump);
+								vidId.volume += audiJump;
+								// setvol(vidId.volume + audiJump);
 								// console.log("Volume Up");
 							}
 						} else if (event.key === "ArrowDown") {
