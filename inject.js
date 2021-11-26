@@ -23,6 +23,7 @@ function startingNow() {
 
 	//assigning all variable(default values)
 	var vidElement = "",
+		lastVidSpeed = 1,
 		//default values
 		audiJump = 0.1, //volume range 0 to 1-(volume go up/down by 0.1)
 		vidSpeedJump = 0.1, //speed range 0 to 10-(vid speed go up/down by 0.1)
@@ -46,8 +47,10 @@ function startingNow() {
 		injectEl.innerHTML = vidElement.playbackRate + "x";
 		document.body.appendChild(injectEl);
 		vidElement.onratechange = function () {
+			vidElement.playbackRate = lastVidSpeed;
 			injectEl.innerHTML = vidElement.playbackRate.toFixed(1) + "x";
 		};
+
 		//controlling video
 		// this for the new speeded duration
 		function setupSpeedDuration() {
@@ -68,7 +71,7 @@ function startingNow() {
 			console.log("Duration fucntion started");
 		}
 
-		//
+		//monnitoring keyboard input
 		function keyboardEventListener() {
 			window.addEventListener("keydown", (event) => {
 				//volume control
@@ -92,11 +95,15 @@ function startingNow() {
 					//video speed control
 				} else if (event.key === speedUpKey) {
 					if (vidElement.playbackRate < 15) {
-						vidElement.playbackRate += vidSpeedJump;
+						// vidElement.playbackRate += vidSpeedJump;
+						lastVidSpeed = lastVidSpeed += vidSpeedJump;
+						vidElement.playbackRate = lastVidSpeed;
 					}
 				} else if (event.key === speedDownKey) {
 					if (vidElement.playbackRate - vidSpeedJump > 0.1) {
-						vidElement.playbackRate -= vidSpeedJump;
+						// vidElement.playbackRate -= vidSpeedJump;
+						lastVidSpeed = lastVidSpeed -= vidSpeedJump;
+						vidElement.playbackRate = lastVidSpeed;
 					}
 
 					//video play&pause
