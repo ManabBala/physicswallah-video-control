@@ -1,6 +1,5 @@
 startWhenReady();
 function startWhenReady() {
-	console.log("checking if window loaded");
 	// window.onload = () => {
 	// 	startingNow(window.document);
 	// };
@@ -24,6 +23,7 @@ function startingNow() {
 	//assigning all variable(default values)
 	var vidElement = "",
 		lastVidSpeed = 1,
+		lastVolume = 10,
 		//default values
 		audiJump = 0.1, //volume range 0 to 1-(volume go up/down by 0.1)
 		vidSpeedJump = 0.1, //speed range 0 to 10-(vid speed go up/down by 0.1)
@@ -44,11 +44,18 @@ function startingNow() {
 		//creating div to show video speed and volume
 		var injectEl = document.createElement("div");
 		injectEl.className = "pw-vid-controller";
-		injectEl.innerHTML = vidElement.playbackRate + "x";
+		injectEl.innerHTML =
+			"🗲" + vidElement.playbackRate + "x" + "🔊" + lastVolume;
 		document.body.appendChild(injectEl);
 		vidElement.onratechange = function () {
 			vidElement.playbackRate = lastVidSpeed;
-			injectEl.innerHTML = vidElement.playbackRate.toFixed(1) + "x";
+			injectEl.innerText =
+				"🗲" + lastVidSpeed.toPrecision(2) + "x" + "🔊" + lastVolume;
+		};
+		vidElement.onvolumechange = function () {
+			lastVolume = vidElement.volume.toFixed(1) * 10;
+			injectEl.innerText =
+				"🗲" + lastVidSpeed.toPrecision(2) + "x" + "🔊" + lastVolume;
 		};
 
 		//controlling video
@@ -68,7 +75,7 @@ function startingNow() {
 					"#rs_penpencil_player > div.vjs-control-bar > div.vjs-duration.vjs-time-control.vjs-control > span.vjs-duration-display"
 				).innerHTML = "- " + leftDuration(leftDurationSec, speed);
 			});
-			console.log("Duration fucntion started");
+			// console.log("Duration fucntion started");
 		}
 
 		//monnitoring keyboard input
@@ -81,6 +88,8 @@ function startingNow() {
 						alert("Max Volume");
 					} else if (vidElement.volume < 1) {
 						vidElement.volume += audiJump;
+						// lastVolume = vidElement.volume += audiJump;
+						// vidElement.volume = lastVolume;
 						console.log("Volume Up");
 					}
 				} else if (event.key === audiDownKey) {
@@ -89,6 +98,8 @@ function startingNow() {
 						alert("Minnimum Volume");
 					} else if (vidElement.volume > 0.1) {
 						vidElement.volume -= audiJump;
+						// lastVolume = vidElement.volume += audiJump;
+						// vidElement.volume = lastVolume;
 						console.log("Volume Down");
 					}
 
