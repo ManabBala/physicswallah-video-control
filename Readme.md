@@ -1,6 +1,21 @@
 # Physics Wallah Video Controller(Chrome Extension)
 
-## Features:
+## <ins>How to use:</ins>
+
+- Click on <span style="background-color:#238636; ">Code 🢓</span>
+- Click on "Download as ZIP" to download this repo
+- Extract the ZIP file
+  <br>
+  <br>
+- Open Chrome
+- Click on three dot ( ⋮ ) (Near profile pic)
+- More tools > Extensions
+- Toggle the "Developer mode"
+- Click on "Load unpacked"
+- Redirect to the Extracted folder("physicswallah-video-control")
+- Open
+
+## <ins>Features:</ins>
 
 | Feature          | Keyboard Key  |
 | ---------------- | ------------- |
@@ -12,11 +27,11 @@
 | Video Slowdown   | NUMPAD -      |
 | Video Play/Pause | Spacebar      |
 
-## Other features:
+## <ins>Other features:</ins>
 
 - Video duration shown as "left duration"(This also update with video speed up/down)
 
-## To change the default values and key set:
+## <ins>To change the default values and key set:</ins>
 
 Edit the contentScript.js file
 
