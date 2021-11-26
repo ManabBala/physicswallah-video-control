@@ -21,7 +21,8 @@
 Edit the contentScript.js file
 
 ```javascript
-var vidId = document.getElementsByTagName("video")[0],
+//assigning all variable(default values)
+var vidElement = "",
 	//default values
 	audiJump = 0.1, //volume range 0 to 1-(volume go up/down by 0.1)
 	vidSpeedJump = 0.1, //speed range 0 to 10-(vid speed go up/down by 0.1)
