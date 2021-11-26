@@ -1,6 +1,6 @@
 # Physics Wallah Video Controller(Chrome Extension)
 
-## <ins>How to use:</ins>
+## <ins>How to Download/Install:</ins>
 
 - Click on <span style="background-color:#238636; ">Code 🢓</span>
 - Click on "Download as ZIP" to download this repo
