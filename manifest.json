@@ -1,10 +1,22 @@
 {
-	"name": "PwVideoController",
-	"version": "0.01",
-	"background": {
-		"service_worker": "background.js"
-	},
-	"permissions": ["scripting"],
-	"host_permissions": ["<all_urls>"],
-	"manifest_version": 3
+	"name": "PwVideoControllTest",
+	"short_name": "test version for the pw video speed",
+	"version": "0.0.2",
+	"manifest_version": 3,
+	"minimum_chrome_version": "89",
+	"description": "Speed up, slow down, advance and rewind HTML5 audio/video with shortcuts",
+
+	"content_scripts": [
+		{
+			"matches": ["https://www.physicswallah.live/*"],
+			"match_about_blank": true,
+			"exclude_matches": [
+				"https://plus.google.com/hangouts/*",
+				"https://hangouts.google.com/*",
+				"https://meet.google.com/*"
+			],
+			"css": ["inject.css"],
+			"js": ["inject.js"]
+		}
+	]
 }
