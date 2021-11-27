@@ -13,5 +13,11 @@
 			"css": ["inject.css"],
 			"js": ["inject.js"]
 		}
+	],
+	"web_accessible_resources": [
+		{
+			"resources": ["inject.css", "shadow.css"],
+			"matches": ["http://*/*", "https://*/*", "file:///*"]
+		}
 	]
 }
