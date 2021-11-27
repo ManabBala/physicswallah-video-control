@@ -3,7 +3,9 @@
 	"version": "0.0.2",
 	"manifest_version": 3,
 	"description": "Speed up, slow down, advance and rewind physics wallah video with shortcuts",
-
+	"icons": {
+		"128": "logo.png"
+	},
 	"content_scripts": [
 		{
 			"matches": ["https://www.physicswallah.live/*"],
