@@ -29,7 +29,7 @@ var tc = {
 
 		controllerOpacity: 0.3,
 		keyBindings: [],
-		logLevel: 2,
+		logLevel: 6,
 	},
 	// Holds a reference to all of the AUDIO/VIDEO DOM elements we've attached to
 	mediaElements: [],
@@ -98,13 +98,6 @@ if (tc.settings.keyBindings.length == 0) {
 		force: false,
 		predefined: true,
 	}); // default: R
-	tc.settings.keyBindings.push({
-		action: "fast",
-		key: 71,
-		value: 1.8,
-		force: false,
-		predefined: true,
-	}); // default: G
 	tc.settings.keyBindings.push({
 		action: "volUp",
 		key: tc.settings.volUpKey || 38,
@@ -175,7 +168,13 @@ function defineVideoController() {
 		this.parent = target.parentElement || parent;
 		storedSpeed = tc.settings.speeds[target.currentSrc];
 
-		storedSpeed = 1.0;
+		if (!storedSpeed) {
+			log(
+				"Overwriting stored speed to 1.0 due to rememberSpeed being disabled",
+				5
+			);
+			storedSpeed = 1.0;
+		}
 
 		log("Explicitly setting playbackRate to: " + storedSpeed, 5);
 		target.playbackRate = storedSpeed;
@@ -185,7 +184,10 @@ function defineVideoController() {
 		var mediaEventAction = function (event) {
 			storedSpeed = tc.settings.speeds[event.target.currentSrc];
 
-			storedSpeed = 1.0;
+			if (!storedSpeed) {
+				log("Overwriting stored speed to 1.0 (rememberSpeed not enabled)", 4);
+				storedSpeed = 1.0;
+			}
 
 			// TODO: Check if explicitly setting the playback rate to 1.0 is
 			// necessary when rememberSpeed is disabled (this may accidentally
@@ -377,7 +379,8 @@ function setupListener() {
 		speedIndicator.textContent = speed.toFixed(2);
 		tc.settings.speeds[src] = speed;
 		log("Storing lastSpeed in settings for the rememberSpeed feature", 5);
-
+		tc.settings.lastSpeed = speed;
+		log("Speed setting saved: " + speed, 5);
 		// show the controller for 1000ms if it's hidden.
 		runAction("blink", null, null);
 	}
@@ -548,7 +551,7 @@ function setSpeed(video, speed) {
 
 	var speedIndicator = video.vsc.speedIndicator;
 	speedIndicator.textContent = speedvalue;
-
+	tc.settings.lastSpeed = speed;
 	refreshCoolDown();
 	log("setSpeed finished: " + speed, 5);
 }
@@ -621,8 +624,6 @@ function runAction(action, value, e) {
 				}
 			} else if (action === "drag") {
 				handleDrag(v, e);
-			} else if (action === "fast") {
-				resetSpeed(v, value);
 			} else if (action === "pause") {
 				pause(v);
 			} else if (action === "volUp") {
@@ -654,13 +655,8 @@ function pause(v) {
 function resetSpeed(v, target) {
 	if (v.playbackRate === target) {
 		if (v.playbackRate === getKeyBindings("reset")) {
-			if (target !== 1.0) {
-				log("Resetting playback speed to 1.0", 4);
-				setSpeed(v, 1.0);
-			} else {
-				log('Toggling playback speed to "fast" speed', 4);
-				setSpeed(v, getKeyBindings("fast"));
-			}
+			log("Resetting playback speed to 1.0", 4);
+			setSpeed(v, 1.0);
 		} else {
 			log('Toggling playback speed to "reset" speed', 4);
 			setSpeed(v, getKeyBindings("reset"));
