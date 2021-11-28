@@ -464,26 +464,6 @@ function initializeNow(document) {
 								checkForVideo(node, node.parentNode || mutation.target, false);
 							});
 							break;
-						case "attributes":
-							if (
-								(mutation.target.attributes["aria-hidden"] &&
-									mutation.target.attributes["aria-hidden"].value == "false") ||
-								mutation.target.nodeName === "APPLE-TV-PLUS-PLAYER"
-							) {
-								var flattenedNodes = getShadow(document.body);
-								var nodes = flattenedNodes.filter((x) => x.tagName == "VIDEO");
-								for (let node of nodes) {
-									// only add vsc the first time for the apple-tv case (the attribute change is triggered every time you click the vsc)
-									if (
-										node.vsc &&
-										mutation.target.nodeName === "APPLE-TV-PLUS-PLAYER"
-									)
-										continue;
-									if (node.vsc) node.vsc.remove();
-									checkForVideo(node, node.parentNode || mutation.target, true);
-								}
-							}
-							break;
 					}
 				});
 			},
@@ -491,7 +471,6 @@ function initializeNow(document) {
 		);
 	});
 	observer.observe(document, {
-		attributeFilter: ["aria-hidden", "data-focus-method"],
 		childList: true,
 		subtree: true,
 	});
