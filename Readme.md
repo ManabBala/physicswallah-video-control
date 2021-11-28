@@ -13,7 +13,7 @@
 - Toggle the "Developer mode"
 - Click on "Load unpacked"
 - Redirect to the Extracted folder("physicswallah-video-control")
-- Open
+- Select forlder
 
 ## <ins>Features:</ins>
 
@@ -33,21 +33,43 @@
 
 ## <ins>To change the default values and key set:</ins>
 
-Edit the contentScript.js file
+Edit the inject.js file
 
 ```javascript
 //assigning all variable(default values)
-var vidElement = "",
-	//default values
-	audiJump = 0.1, //volume range 0 to 1-(volume go up/down by 0.1)
-	vidSpeedJump = 0.1, //speed range 0 to 10-(vid speed go up/down by 0.1)
-	vidSeekJump = 5, //in seconds-(vid forward/backward by 5 sec)
-	//keyset for controller
-	audiUpKey = "ArrowUp", //up arrow key for volume up
-	audiDownKey = "ArrowDown", //down arrow key for volume down
-	forwardKey = "ArrowRight", //rigt arrow for video forwarding
-	backwardKey = "ArrowLeft", //left arrow for video backwarding
-	speedUpKey = "+", //NUMPAD '+' for speedup the video
-	speedDownKey = "-", //NUMPAD '-' for slowdown the video
-	playPauseKey = " "; //" " denotes the "blank space" for Space Bar to pay and pause the vid
+var tc = {
+	settings: {
+		lastSpeed: 1,
+		speeds: {},
+		//default values
+		volJump: 0.1, //volume range 0 to 1-(volume go up/down by 0.1)
+		vidSpeedJump: 0.1, //speed range 0 to 10-(vid speed go up/down by 0.1)
+		vidSeekJump: 5, //in seconds-(vid forward/backward by 5 sec)
+		/*
+		Shrotcut for media controller
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		->Change Shortcut by changing 'Key: ' value
+		  e.g.speedDownKey: 109,
+
+		->TO note your desired key press, set "findKeyCode: true"
+		  Open console by pressing crtl+shift+J,
+			press any key and note the keyName/keyCode
+		*/
+		findKeyCode: false, //default true
+		speedDownKey: 109, //default key: 109 =>NUMPAD '-' for slowdown the video
+		speedUpKey: 107, //default key: 107 => NUMPAD '+' for speedup the video
+		backwardKey: 37, //default key: 37 =>left arrow for video backwarding
+		forwardKey: 39, //default key: 39 =>rigt arrow for video forwarding
+		volUpKey: 38, //default key: 38 =>up arrow key for volume up
+		volDownKey: 40, //default key: 40 =>down arrow key for volume down
+		volMuteKey: 77, //dfault key: 77 =>'m' letter to mute the video
+		playPauseKey: 32, //default key: 32 =>Space Bar to play and pause the video
+
+		controllerOpacity: 0.3,
+		keyBindings: [],
+		logLevel: 6,
+	},
+	// Holds a reference to all of the AUDIO/VIDEO DOM elements we've attached to
+	mediaElements: [],
+};
 ```
