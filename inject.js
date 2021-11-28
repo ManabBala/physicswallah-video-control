@@ -4,20 +4,32 @@ var tc = {
 		lastSpeed: 1,
 		speeds: {},
 		//default values
-		audiJump: 0.1, //volume range 0 to 1-(volume go up/down by 0.1)
+		volJump: 0.1, //volume range 0 to 1-(volume go up/down by 0.1)
 		vidSpeedJump: 0.1, //speed range 0 to 10-(vid speed go up/down by 0.1)
 		vidSeekJump: 5, //in seconds-(vid forward/backward by 5 sec)
-		//keyset for controller
-		audiUpKey: "ArrowUp", //up arrow key for volume up
-		audiDownKey: "ArrowDown", //down arrow key for volume down
-		forwardKey: "ArrowRight", //rigt arrow for video forwarding
-		backwardKey: "ArrowLeft", //left arrow for video backwarding
-		speedUpKey: "+", //NUMPAD '+' for speedup the video
-		speedDownKey: "-", //NUMPAD '-' for slowdown the video
-		playPauseKey: " ", //" " denotes the "blank space" for Space Bar to pay and pause the vid
+		/*
+		Shrotcut for media controller
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		->Change Shortcut by changing 'Key: ' value
+		  e.g.volUpKey: 38,
+
+		->TO note your desired key press, set "findKeyCode: true"
+		  Open console by pressing crtl+shift+J,
+			press any key and note the keyName/keyCode
+		*/
+		findKeyCode: false, //default true
+		speedDownKey: 109, //default key: 109 =>NUMPAD '-' for slowdown the video
+		speedUpKey: 107, //default key: 107 => NUMPAD '+' for speedup the video
+		backwardKey: 37, //default key: 37 =>left arrow for video backwarding
+		forwardKey: 39, //default key: 39 =>rigt arrow for video forwarding
+		volUpKey: 38, //default key: 38 =>up arrow key for volume up
+		volDownKey: 40, //default key: 40 =>down arrow key for volume down
+		volMuteKey: 77, //dfault key: 77 =>'m' letter to mute the video
+		playPauseKey: 32, //default key: 32 =>Space Bar to play and pause the video
+
 		controllerOpacity: 0.3,
 		keyBindings: [],
-		logLevel: 6,
+		logLevel: 2,
 	},
 	// Holds a reference to all of the AUDIO/VIDEO DOM elements we've attached to
 	mediaElements: [],
@@ -53,29 +65,29 @@ if (tc.settings.keyBindings.length == 0) {
 	// UPDATE
 	tc.settings.keyBindings.push({
 		action: "slower",
-		key: 83,
-		value: 0.1,
+		key: tc.settings.speedDownKey || 109,
+		value: tc.settings.vidSpeedJump || 0.1,
 		force: false,
 		predefined: true,
 	}); // default S
 	tc.settings.keyBindings.push({
 		action: "faster",
-		key: 68,
-		value: 0.1,
+		key: tc.settings.speedUpKey || 107,
+		value: tc.settings.vidSpeedJump || 0.1,
 		force: false,
 		predefined: true,
 	}); // default: D
 	tc.settings.keyBindings.push({
 		action: "rewind",
-		key: 90,
-		value: 10,
+		key: tc.settings.backwardKey || 37,
+		value: tc.settings.vidSeekJump || 10,
 		force: false,
 		predefined: true,
 	}); // default: Z
 	tc.settings.keyBindings.push({
 		action: "advance",
-		key: 88,
-		value: 10,
+		key: tc.settings.forwardKey || 39,
+		value: tc.settings.vidSeekJump || 10,
 		force: false,
 		predefined: true,
 	}); // default: X
@@ -93,6 +105,34 @@ if (tc.settings.keyBindings.length == 0) {
 		force: false,
 		predefined: true,
 	}); // default: G
+	tc.settings.keyBindings.push({
+		action: "volUp",
+		key: tc.settings.volUpKey || 38,
+		value: tc.settings.volJump || 0.1,
+		force: false,
+		predefined: true,
+	});
+	tc.settings.keyBindings.push({
+		action: "volDown",
+		key: tc.settings.volDownKey || 38,
+		value: tc.settings.volJump || 0.1,
+		force: false,
+		predefined: true,
+	});
+	tc.settings.keyBindings.push({
+		action: "muted",
+		key: tc.settings.volMuteKey || 38,
+		value: 0,
+		force: false,
+		predefined: true,
+	});
+	tc.settings.keyBindings.push({
+		action: "pause",
+		key: tc.settings.playPauseKey || 32,
+		value: 1,
+		force: false,
+		predefined: true,
+	});
 	tc.settings.version = "0.5.3";
 }
 
@@ -394,8 +434,14 @@ function initializeNow(document) {
 		doc.addEventListener(
 			"keydown",
 			function (event) {
+				var keyName = event.key;
 				var keyCode = event.keyCode;
-				log("Processing keydown event: " + keyCode, 6);
+
+				if (tc.settings.findKeyCode == true) {
+					console.log(`keydown event: keyName = "${keyName}"
+					keyCode = ${keyCode}`);
+				}
+				// log("Processing keydown event: " + keyCode, 6);
 
 				// Ignore keydown event if typing in an input box
 				if (
@@ -579,6 +625,10 @@ function runAction(action, value, e) {
 				resetSpeed(v, value);
 			} else if (action === "pause") {
 				pause(v);
+			} else if (action === "volUp") {
+				volUp(v, value);
+			} else if (action === "volDown") {
+				volDown(v, value);
 			} else if (action === "muted") {
 				muted(v);
 			} else if (action === "mark") {
@@ -619,6 +669,26 @@ function resetSpeed(v, target) {
 		log('Toggling playback speed to "reset" speed', 4);
 		setKeyBindings("reset", v.playbackRate);
 		setSpeed(v, target);
+	}
+}
+
+function volUp(v, volJump) {
+	console.log(v.volume);
+	if (v.volume === 1) {
+		alert("Max Volume");
+	} else if (v.volume < 1) {
+		v.volume += volJump;
+		log("Volume Up", 4);
+	}
+}
+
+function volDown(v, volJump) {
+	console.log(v.volume);
+	if (v.volume > 0 && v.volume < 0.1) {
+		alert("Minnimum Volume");
+	} else if (v.volume > 0.1) {
+		v.volume -= volJump;
+		log("Volume Down", 4);
 	}
 }
 
