@@ -61,7 +61,6 @@ function log(message, level) {
 	}
 }
 if (tc.settings.keyBindings.length == 0) {
-	// if first initialization of 0.5.3
 	// UPDATE
 	tc.settings.keyBindings.push({
 		action: "slower",
@@ -126,7 +125,6 @@ if (tc.settings.keyBindings.length == 0) {
 		force: false,
 		predefined: true,
 	});
-	tc.settings.version = "0.5.3";
 }
 
 function getKeyBindings(action, what = "value") {
@@ -632,10 +630,6 @@ function runAction(action, value, e) {
 				volDown(v, value);
 			} else if (action === "muted") {
 				muted(v);
-			} else if (action === "mark") {
-				setMark(v);
-			} else if (action === "jump") {
-				jumpToMark(v);
 			}
 		}
 	});
@@ -690,18 +684,6 @@ function volDown(v, volJump) {
 
 function muted(v) {
 	v.muted = v.muted !== true;
-}
-
-function setMark(v) {
-	log("Adding marker", 5);
-	v.vsc.mark = v.currentTime;
-}
-
-function jumpToMark(v) {
-	log("Recalling marker", 5);
-	if (v.vsc.mark && typeof v.vsc.mark === "number") {
-		v.currentTime = v.vsc.mark;
-	}
 }
 
 function handleDrag(video, e) {
