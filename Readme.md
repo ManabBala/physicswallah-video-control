@@ -73,3 +73,9 @@ var tc = {
 	mediaElements: [],
 };
 ```
+
+<br>
+
+# <ins>Screenshot:</ins>
+
+![image info](Screenshot.png)
