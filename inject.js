@@ -245,14 +245,18 @@ function defineVideoController() {
 		const document = this.video.ownerDocument;
 		const speed = this.video.playbackRate.toFixed(2);
 		const rect = this.video.getBoundingClientRect();
+		const durationSec = this.video.duration;
+
 		// getBoundingClientRect is relative to the viewport; style coordinates
 		// are relative to offsetParent, so we adjust for that here. offsetParent
 		// can be null if the video has `display: none` or is not yet in the DOM.
 		const offsetRect = this.video.offsetParent?.getBoundingClientRect();
 		const top = Math.max(rect.top - (offsetRect?.top || 0), 0) + "px";
 		const left = Math.max(rect.left - (offsetRect?.left || 0), 0) + "px";
+		const right = Math.max(rect.right - (offsetRect?.right || 0), 0) + "px";
 
 		log("Speed variable set to: " + speed, 5);
+		log("duration set to: " + durationSec, 5);
 
 		var wrapper = document.createElement("div");
 		wrapper.classList.add("vsc-controller");
@@ -279,6 +283,9 @@ function defineVideoController() {
             <button data-action="display" class="hideButton">&times;</button>
           </span>
         </div>
+				<div id="controllerDura" style="top:${top}; right:${right}">
+				<span>-</span>
+				</div>
       `;
 		shadow.innerHTML = shadowTemplate;
 		shadow.querySelector(".draggable").addEventListener(
@@ -313,6 +320,19 @@ function defineVideoController() {
 			.addEventListener("mousedown", (e) => e.stopPropagation(), false);
 
 		this.speedIndicator = shadow.querySelector("span");
+
+		this.durationIndicator = shadow.querySelector("#controllerDura");
+
+		this.video.addEventListener("timeupdate", (event) => {
+			let leftDurationSec = durationSec - this.video.currentTime;
+			function leftDuration(secTime, speed) {
+				return new Date((secTime * 1000) / speed).toISOString().substr(11, 8);
+			}
+			let speed = this.video.playbackRate;
+			this.durationIndicator.innerHTML =
+				"- " + leftDuration(leftDurationSec, speed);
+		});
+
 		var fragment = document.createDocumentFragment();
 		fragment.appendChild(wrapper);
 

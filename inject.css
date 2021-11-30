@@ -57,12 +57,6 @@ a[aria-label^="Video"] .vsc-controller {
 	top: 50px;
 }
 
-/* Netflix player */
-#netflix-player:not(.player-cinema-mode) .vsc-controller {
-	position: relative;
-	top: 85px;
-}
-
 /* shift controller on vine.co */
 /* e.g. https://vine.co/v/OrJj39YlL57 */
 .video-container .vine-video-container .vsc-controller {
@@ -77,20 +71,4 @@ a[aria-label^="Video"] .vsc-controller {
 
 .ytp-fullscreen .ytp-webgl-spherical-control {
 	top: 100px !important;
-}
-
-/* disable Vimeo video overlay */
-div.video-wrapper + div.target {
-	height: 0;
-}
-
-/* Fix black overlay on Kickstarter */
-div.video-player.has_played.vertically_center:before,
-div.legacy-video-player.has_played.vertically_center:before {
-	content: none !important;
-}
-
-/* Fix black overlay on openai.com */
-.Shared-Video-player > .vsc-controller {
-	height: 0;
 }
