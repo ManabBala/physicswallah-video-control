@@ -321,16 +321,16 @@ function defineVideoController() {
 
 		this.speedIndicator = shadow.querySelector("span");
 
+		//updating the Left Duration on the top rihgt
 		this.durationIndicator = shadow.querySelector("#controllerDura");
-
 		this.video.addEventListener("timeupdate", (event) => {
 			let leftDurationSec = durationSec - this.video.currentTime;
+			const vidSpeed = this.video.playbackRate.toFixed(2);
 			function leftDuration(secTime, speed) {
 				return new Date((secTime * 1000) / speed).toISOString().substr(11, 8);
 			}
-			let speed = this.video.playbackRate;
 			this.durationIndicator.innerHTML =
-				"- " + leftDuration(leftDurationSec, speed);
+				"- " + leftDuration(leftDurationSec, vidSpeed);
 		});
 
 		var fragment = document.createDocumentFragment();

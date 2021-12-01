@@ -42,8 +42,8 @@ var tc = {
 		lastSpeed: 1,
 		speeds: {},
 		//default values
-		volJump: 0.1, //volume range 0 to 1-(volume go up/down by 0.1)
-		vidSpeedJump: 0.1, //speed range 0 to 10-(vid speed go up/down by 0.1)
+		volJump: 0.1, //volume range 0 to 1-(volume go up/down by 0.1x
+		vidSpeedJump: 0.1, //speed range 0 to 10-(vid speed go up/down by 0.1x)
 		vidSeekJump: 5, //in seconds-(vid forward/backward by 5 sec)
 		/*
 		Shrotcut for media controller
