@@ -29,7 +29,7 @@ var tc = {
 
 		controllerOpacity: 0.3,
 		keyBindings: [],
-		logLevel: 6,
+		logLevel: 4,
 	},
 	// Holds a reference to all of the AUDIO/VIDEO DOM elements we've attached to
 	mediaElements: [],
@@ -325,8 +325,11 @@ function defineVideoController() {
 		this.durationIndicator = shadow.querySelector("#controllerDura");
 		this.video.addEventListener("timeupdate", (event) => {
 			let leftDurationSec = durationSec - this.video.currentTime;
-			const vidSpeed = this.video.playbackRate.toFixed(2);
+			let vidSpeed = this.video.playbackRate.toFixed(2);
+			console.log(durationSec);
 			function leftDuration(secTime, speed) {
+				console.log(secTime);
+				console.log(speed);
 				return new Date((secTime * 1000) / speed).toISOString().substr(11, 8);
 			}
 			this.durationIndicator.innerHTML =
