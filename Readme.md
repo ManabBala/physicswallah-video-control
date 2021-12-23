@@ -30,6 +30,7 @@
 ## <ins>Other features:</ins>
 
 - Video duration shown as "left duration"(This also update with video speed up/down)
+- Now can download slide image as "Right Click" is enabled(natively disabled)
 
 ## <ins>To change the default values and key set:</ins>
 
@@ -55,6 +56,7 @@ var tc = {
 		  Open console by pressing crtl+shift+J,
 			press any key and note the keyName/keyCode
 		*/
+		rightClick: true, // default to true to be able to download image
 		findKeyCode: false, //default true
 		speedDownKey: 109, //default key: 109 =>NUMPAD '-' for slowdown the video
 		speedUpKey: 107, //default key: 107 => NUMPAD '+' for speedup the video

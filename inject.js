@@ -17,7 +17,7 @@ var tc = {
 		  Open console by pressing crtl+shift+J,
 			press any key and note the keyName/keyCode
 		*/
-		rightClick: true,
+		rightClick: true, // default to true to be able to download image
 		findKeyCode: false, //default true
 		speedDownKey: 109, //default key: 109 =>NUMPAD '-' for slowdown the video
 		speedUpKey: 107, //default key: 107 => NUMPAD '+' for speedup the video
@@ -442,7 +442,7 @@ function setupListener() {
 function initializeNow(document) {
 	log("Begin initializeNow", 5);
 
-	// enabeling right click
+	// enabling right click
 	enableRightClick(document);
 	// enforce init-once due to redundant callers
 	if (!document.body || document.body.classList.contains("vsc-initialized")) {
