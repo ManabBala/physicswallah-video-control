@@ -17,6 +17,7 @@ var tc = {
 		  Open console by pressing crtl+shift+J,
 			press any key and note the keyName/keyCode
 		*/
+		rightClick: true,
 		findKeyCode: false, //default true
 		speedDownKey: 109, //default key: 109 =>NUMPAD '-' for slowdown the video
 		speedUpKey: 107, //default key: 107 => NUMPAD '+' for speedup the video
@@ -138,6 +139,19 @@ function getKeyBindings(action, what = "value") {
 function setKeyBindings(action, value) {
 	tc.settings.keyBindings.find((item) => item.action === action)["value"] =
 		value;
+}
+
+// enable right click to save slide images
+function enableRightClick(el) {
+	if (tc.settings.rightClick == true) {
+		el.addEventListener("contextmenu", bringBackDefault, true);
+
+		function bringBackDefault(event) {
+			event.returnValue = true;
+			typeof event.stopPropagation === "function" && event.stopPropagation();
+			typeof event.cancelBubble === "function" && event.cancelBubble();
+		}
+	}
 }
 
 initializeWhenReady(document);
@@ -428,6 +442,8 @@ function setupListener() {
 function initializeNow(document) {
 	log("Begin initializeNow", 5);
 
+	// enabeling right click
+	enableRightClick(document);
 	// enforce init-once due to redundant callers
 	if (!document.body || document.body.classList.contains("vsc-initialized")) {
 		return;
