@@ -81,14 +81,14 @@ if (tc.settings.keyBindings.length == 0) {
 		action: "rewind",
 		key: tc.settings.backwardKey || 37,
 		value: tc.settings.vidSeekJump || 10,
-		force: false,
+		force: true,
 		predefined: true,
 	}); // default: Z
 	tc.settings.keyBindings.push({
 		action: "advance",
 		key: tc.settings.forwardKey || 39,
 		value: tc.settings.vidSeekJump || 10,
-		force: false,
+		force: true,
 		predefined: true,
 	}); // default: X
 	tc.settings.keyBindings.push({
@@ -102,14 +102,14 @@ if (tc.settings.keyBindings.length == 0) {
 		action: "volUp",
 		key: tc.settings.volUpKey || 38,
 		value: tc.settings.volJump || 0.1,
-		force: false,
+		force: true,
 		predefined: true,
 	});
 	tc.settings.keyBindings.push({
 		action: "volDown",
 		key: tc.settings.volDownKey || 38,
 		value: tc.settings.volJump || 0.1,
-		force: false,
+		force: true,
 		predefined: true,
 	});
 	tc.settings.keyBindings.push({
@@ -123,7 +123,7 @@ if (tc.settings.keyBindings.length == 0) {
 		action: "pause",
 		key: tc.settings.playPauseKey || 32,
 		value: 1,
-		force: false,
+		force: true,
 		predefined: true,
 	});
 }
