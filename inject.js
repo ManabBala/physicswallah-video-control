@@ -18,15 +18,17 @@ var tc = {
 			press any key and note the keyName/keyCode
 		*/
 		rightClick: true, // default to true to be able to download image
-		findKeyCode: false, //default true
+		focusMode: true, // to delete all the section except video and slides
+		findKeyCode: true, //default true
 		speedDownKey: 109, //default key: 109 =>NUMPAD '-' for slowdown the video
 		speedUpKey: 107, //default key: 107 => NUMPAD '+' for speedup the video
 		backwardKey: 37, //default key: 37 =>left arrow for video backwarding
-		forwardKey: 39, //default key: 39 =>rigt arrow for video forwarding
+		forwardKey: 39, //default key: 39 =>right arrow for video forwarding
 		volUpKey: 38, //default key: 38 =>up arrow key for volume up
 		volDownKey: 40, //default key: 40 =>down arrow key for volume down
-		volMuteKey: 77, //dfault key: 77 =>'m' letter to mute the video
+		volMuteKey: 77, //default key: 77 =>'m' letter to mute the video
 		playPauseKey: 32, //default key: 32 =>Space Bar to play and pause the video
+		focusModeKey: 106, //default key:106 =>'*' of numpad
 
 		controllerOpacity: 0.3,
 		keyBindings: [],
@@ -122,6 +124,13 @@ if (tc.settings.keyBindings.length == 0) {
 	tc.settings.keyBindings.push({
 		action: "pause",
 		key: tc.settings.playPauseKey || 32,
+		value: 1,
+		force: true,
+		predefined: true,
+	});
+	tc.settings.keyBindings.push({
+		action: "focus",
+		key: tc.settings.focusModeKey || 106,
 		value: 1,
 		force: true,
 		predefined: true,
@@ -295,6 +304,7 @@ function defineVideoController() {
             <button data-action="faster">&plus;</button>
             <button data-action="advance" class="rw">»</button>
             <button data-action="display" class="hideButton">&times;</button>
+						<button data-action="focus" class="focus">F</button>
           </span>
         </div>
 				<div id="controllerDura" style="top:${top}; right:${right}">
@@ -340,10 +350,7 @@ function defineVideoController() {
 		this.video.addEventListener("timeupdate", (event) => {
 			let leftDurationSec = durationSec - this.video.currentTime;
 			let vidSpeed = this.video.playbackRate.toFixed(2);
-			console.log(durationSec);
 			function leftDuration(secTime, speed) {
-				console.log(secTime);
-				console.log(speed);
 				return new Date((secTime * 1000) / speed).toISOString().substr(11, 8);
 			}
 			this.durationIndicator.innerHTML =
@@ -642,6 +649,8 @@ function runAction(action, value, e) {
 				log("Showing controller", 5);
 				controller.classList.add("vsc-manual");
 				controller.classList.toggle("vsc-hidden");
+			} else if (action === "focus") {
+				enableFocusMode(v);
 			} else if (action === "blink") {
 				log("Showing controller momentarily", 5);
 				// if vsc is hidden, show it briefly to give the use visual feedback that the action is excuted.
@@ -714,7 +723,7 @@ function volUp(v, volJump) {
 function volDown(v, volJump) {
 	console.log(v.volume);
 	if (v.volume > 0 && v.volume < 0.1) {
-		alert("Minnimum Volume");
+		alert("Minimum Volume");
 	} else if (v.volume > 0.1) {
 		v.volume -= volJump;
 		log("Volume Down", 4);
@@ -782,4 +791,37 @@ function showController(controller) {
 		timer = false;
 		log("Hiding controller", 5);
 	}, 2000);
+}
+
+function enableFocusMode(video) {
+	console.log("Focus Mode");
+	let toolbar = document
+		.querySelector(
+			"body > app-root > ion-app > ion-split-pane > ion-router-outlet > app-tabs > ion-tabs > div > ion-router-outlet > app-combined-player > ion-header > ion-toolbar"
+		)
+		.shadowRoot.querySelector("div.toolbar-container");
+	let title = document.querySelector(
+		"body > app-root > ion-app > ion-split-pane > ion-router-outlet > app-tabs > ion-tabs > div > ion-router-outlet > app-combined-player > ion-content > ion-row > ion-col:nth-child(1) > ion-row:nth-child(2)"
+	);
+	let askDoubt = document.querySelector(
+		"body > app-root > ion-app > ion-split-pane > ion-router-outlet > app-tabs > ion-tabs > div > ion-router-outlet > app-combined-player > ion-content > ion-row > ion-col:nth-child(1) > ion-row.title-section.md.hydrated > ion-col:nth-child(2) > ion-row > ion-col:nth-child(1) > div"
+	);
+	let userInteractionSection = document.querySelector(
+		"body > app-root > ion-app > ion-split-pane > ion-router-outlet > app-tabs > ion-tabs > div > ion-router-outlet > app-combined-player > ion-content > ion-row > ion-col:nth-child(1) > ion-row.title-section.md.hydrated"
+	);
+
+	if (tc.settings.focusMode == true) {
+		if (askDoubt.length != "") {
+			askDoubt.click();
+		}
+		deleteEl(toolbar);
+		deleteEl(title);
+		deleteEl(userInteractionSection);
+		pause(video);
+	}
+	function deleteEl(el) {
+		if (el.length != "") {
+			el.remove();
+		}
+	}
 }
