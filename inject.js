@@ -813,15 +813,18 @@ function enableFocusMode(video) {
 	if (tc.settings.focusMode == true) {
 		if (askDoubt.length != "") {
 			askDoubt.click();
+			pause(video);
 		}
-		deleteEl(toolbar);
-		deleteEl(title);
-		deleteEl(userInteractionSection);
-		pause(video);
+		hideEl(toolbar);
+		hideEl(title);
+		hideEl(userInteractionSection);
 	}
-	function deleteEl(el) {
-		if (el.length != "") {
-			el.remove();
+	function hideEl(el) {
+		if (el.style.display === "none") {
+			el.style.display = "";
+		} else {
+			el.style.display = "none";
+			el.classList.add();
 		}
 	}
 }
