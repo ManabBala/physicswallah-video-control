@@ -8,7 +8,7 @@
 	},
 	"content_scripts": [
 		{
-			"matches": ["https://www.physicswallah.live/*"],
+			"matches": ["https://study.physicswallah.live/*"],
 			"match_about_blank": true,
 			"css": ["inject.css"],
 			"js": ["inject.js"]
